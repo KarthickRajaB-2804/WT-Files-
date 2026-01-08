@@ -44,6 +44,9 @@ ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN PV */
 uint16_t data;
+float vref = 3.3;
+float max_val=4095.0;
+float data1;
 
 /* USER CODE END PV */
 
@@ -246,6 +249,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 	data = HAL_ADC_GetValue(hadc);
 	//HAL_ADC_Start_IT(&hadc1);
+	data1 = (data/max_val)*vref ;
 }
 
 /* USER CODE END 4 */

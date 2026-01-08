@@ -193,10 +193,12 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 uint16_t led=1;
+uint16_t count = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == GPIO_PIN_13)
 	{
+		count++;
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, led);
 
 		if(led == 0)

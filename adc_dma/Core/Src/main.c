@@ -46,7 +46,9 @@
 
 /* USER CODE BEGIN PV */
 uint16_t data[2];
-
+float vref = 3.3;
+float max_val=4095.0;
+float data1,data2;
 
 /* USER CODE END PV */
 
@@ -93,7 +95,7 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_ADC_Start_DMA(&hadc1, (uint16_t*)data, 2);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)data, 2);
 
   /* USER CODE END 2 */
 
@@ -104,6 +106,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
   }
   /* USER CODE END 3 */
 }
@@ -158,7 +161,8 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-
+	 data1 = (data[0] * vref) / max_val;
+	 data2 = (data[1] * vref) / max_val; ;
 }
 
 /* USER CODE END 4 */

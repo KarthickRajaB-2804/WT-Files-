@@ -45,6 +45,9 @@
 
 /* USER CODE BEGIN PV */
 uint16_t data;
+float vref = 3.3;
+float max_val=4095.0;
+float data1;
 
 /* USER CODE END PV */
 
@@ -105,6 +108,7 @@ int main(void)
     HAL_ADC_PollForConversion(&hadc1, 10);
     data = HAL_ADC_GetValue(&hadc1);
     HAL_ADC_Stop(&hadc1);
+    data1 = (data/max_val)*vref ;
   }
   /* USER CODE END 3 */
 }

@@ -1150,9 +1150,9 @@ void MX_TIM2_Init(void)
  800072a:	4b26      	ldr	r3, [pc, #152]	@ (80007c4 <MX_TIM2_Init+0xe8>)
  800072c:	2200      	movs	r2, #0
  800072e:	611a      	str	r2, [r3, #16]
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
  8000730:	4b24      	ldr	r3, [pc, #144]	@ (80007c4 <MX_TIM2_Init+0xe8>)
- 8000732:	2280      	movs	r2, #128	@ 0x80
+ 8000732:	2200      	movs	r2, #0
  8000734:	619a      	str	r2, [r3, #24]
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
  8000736:	4823      	ldr	r0, [pc, #140]	@ (80007c4 <MX_TIM2_Init+0xe8>)

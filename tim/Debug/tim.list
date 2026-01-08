@@ -334,13 +334,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  800032e:	b082      	sub	sp, #8
  8000330:	af00      	add	r7, sp, #0
  8000332:	6078      	str	r0, [r7, #4]
-	//if(htim->Instance == TIM2)
-		//{
-		 HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_13);
+
+	HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_13);
  8000334:	f44f 5100 	mov.w	r1, #8192	@ 0x2000
  8000338:	4803      	ldr	r0, [pc, #12]	@ (8000348 <HAL_TIM_PeriodElapsedCallback+0x1c>)
  800033a:	f000 fc8d 	bl	8000c58 <HAL_GPIO_TogglePin>
-		//s}
+
 }
  800033e:	bf00      	nop
  8000340:	3708      	adds	r7, #8

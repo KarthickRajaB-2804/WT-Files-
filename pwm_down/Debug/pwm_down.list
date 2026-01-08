@@ -628,9 +628,9 @@ void MX_TIM2_Init(void)
  8000418:	4b2a      	ldr	r3, [pc, #168]	@ (80004c4 <MX_TIM2_Init+0xec>)
  800041a:	2210      	movs	r2, #16
  800041c:	609a      	str	r2, [r3, #8]
-  htim2.Init.Period = 499;
+  htim2.Init.Period = 999;
  800041e:	4b29      	ldr	r3, [pc, #164]	@ (80004c4 <MX_TIM2_Init+0xec>)
- 8000420:	f240 12f3 	movw	r2, #499	@ 0x1f3
+ 8000420:	f240 32e7 	movw	r2, #999	@ 0x3e7
  8000424:	60da      	str	r2, [r3, #12]
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
  8000426:	4b27      	ldr	r3, [pc, #156]	@ (80004c4 <MX_TIM2_Init+0xec>)
@@ -696,8 +696,8 @@ void MX_TIM2_Init(void)
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
  800048c:	2360      	movs	r3, #96	@ 0x60
  800048e:	603b      	str	r3, [r7, #0]
-  sConfigOC.Pulse = 400;
- 8000490:	f44f 73c8 	mov.w	r3, #400	@ 0x190
+  sConfigOC.Pulse = 800;
+ 8000490:	f44f 7348 	mov.w	r3, #800	@ 0x320
  8000494:	607b      	str	r3, [r7, #4]
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
  8000496:	2300      	movs	r3, #0
