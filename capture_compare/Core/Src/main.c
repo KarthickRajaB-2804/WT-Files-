@@ -47,6 +47,7 @@
 uint16_t fall=0;
 uint16_t rise=0;
 float on_Time=0;
+float tick_us=0;
 
 /* USER CODE END PV */
 
@@ -170,7 +171,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 
 	   if(fall>rise)
 	   {
-		  on_Time = (fall - rise) ;
+		  tick_us = ((float)(72)/36000000.0f) * 1e6f;
+		  on_Time = (fall - rise)*tick_us;
+
+
 	   }
 	}
 }
