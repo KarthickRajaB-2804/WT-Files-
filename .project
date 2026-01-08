@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>WT_Files</name>
+	<comment></comment>
+	<projects>
+		<project>ad_dma</project>
+		<project>adc_injected</project>
+		<project>adc_interrupt</project>
+		<project>adc_polling</project>
+		<project>gpio_button</project>
+		<project>gpio_interrupt</project>
+		<project>led</project>
+		<project>timer</project>
+		<project>Training</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>
