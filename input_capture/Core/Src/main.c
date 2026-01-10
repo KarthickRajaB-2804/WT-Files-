@@ -44,8 +44,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t rise=0,fall=0;
-float frequency=0,dc=0;
+uint32_t rise = 0;
+int first_Capture = 0;
+uint32_t rise1 = 0;
+uint32_t diff = 0;
+float frequency = 0.0;
+float tim_Clock = 0.0;
+float time_Period =0.0;
 
 /* USER CODE END PV */
 
@@ -89,10 +94,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_TIM1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_2);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,6 +121,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -143,26 +151,45 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
-    {
-	  rise = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
-      if (rise != 0)
-	  {
-	    frequency = (36000000)/((rise)*(72));
-	  }
-    }
-	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+	// Measuring Frequency
+	if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
 	{
-	fall = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
-	   if (rise != 0)
-	    {
-	      dc = (fall/rise)*100;
-	    }
+		if(first_Capture == 0)  // if rising edge is not captured
+		{
+			rise = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+			first_Capture = 1;
+		}
+		else                    // capture next rising edge - calc period
+		{
+			rise1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
+			if(rise1 > rise)
+			{
+			    diff = rise1 - rise;
+			}
+			else if (rise > rise1)
+			{
+				diff = (0xffffffff - rise) + rise1 + 1;
+			}
+			tim_Clock = (36000000.0f)/(72);   // timer clock = (36Mhz)/(PSC+1)
+			frequency = tim_Clock / diff ;
+			time_Period = 1/frequency;
+
+			//__HAL_TIM_SET_COUNTER(htim,0);
+
+			first_Capture = 0 ;
+
+		}
 	}
 }
 

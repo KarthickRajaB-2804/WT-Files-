@@ -97,8 +97,12 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_Buffer,2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+
+  //__HAL_TIM_SET_AUTORELOAD(&htim2, 49);   // 10 kHz
+  //__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 25); // 50%
+
 
   /* USER CODE END 2 */
 
@@ -171,9 +175,10 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 	arr = 24 + (frequency*25)/(4095);
 	__HAL_TIM_SET_AUTORELOAD(&htim2,arr);
 
+
 	// DUTY CYCLE CONTROL
 	ccr = (dc*(arr+1))/(4095);
-	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, ccr);
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ccr);
 }
 
 /* USER CODE END 4 */

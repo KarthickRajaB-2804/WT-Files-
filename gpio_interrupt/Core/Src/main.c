@@ -43,6 +43,11 @@
 
 /* USER CODE BEGIN PV */
 
+uint16_t count = 0 ;
+uint16_t current_Time , previous_Time = 0;
+
+uint16_t led = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -192,30 +197,28 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-uint16_t led=1;
-uint16_t count = 0;
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	if(GPIO_Pin == GPIO_PIN_13)
+  if(GPIO_Pin == GPIO_PIN_13)
+  {
+	current_Time = HAL_GetTick();
+	if((current_Time - previous_Time) >= 200)
 	{
-		count++;
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, led);
-
-		if(led == 0)
-		{
-			led = 1;
-		}
-		else
-		{
-			led = 0;
-		}
-	}
-	else
-	{
-
-	}
+	  count++;
+	  previous_Time = current_Time;
+	  if(led == 0)
+	  {
+	    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13,SET);
+	    led = 1;
+	  }
+	  else
+	  {
+	   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, RESET);
+	   led = 0;
+	  }
+     }
+  }
 }
-
 /* USER CODE END 4 */
 
 /**
