@@ -156,7 +156,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
     HAL_UART_Transmit_DMA(huart, rx_Buffer, 20);
 
-	HAL_UART_Receive_DMA(huart, rx_Buffer, 20);
+	//HAL_UART_Receive_DMA(huart, rx_Buffer, 20);
 }
 
 
