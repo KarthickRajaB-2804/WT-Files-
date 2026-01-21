@@ -1,0 +1,6 @@
+../Core/Src/main.c:62:10:DRV_ClearFault	16	static
+../Core/Src/main.c:77:6:DRV_Write	16	static
+../Core/Src/main.c:85:10:DRV_Read	24	static
+../Core/Src/main.c:105:5:main	8	static
+../Core/Src/main.c:154:6:SystemClock_Config	72	static
+../Core/Src/main.c:197:6:Error_Handler	4	static,ignoring_inline_asm

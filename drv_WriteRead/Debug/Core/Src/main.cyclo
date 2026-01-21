@@ -1,0 +1,6 @@
+../Core/Src/main.c:62:10:DRV_ClearFault	1
+../Core/Src/main.c:77:6:DRV_Write	1
+../Core/Src/main.c:85:10:DRV_Read	1
+../Core/Src/main.c:105:5:main	1
+../Core/Src/main.c:154:6:SystemClock_Config	3
+../Core/Src/main.c:197:6:Error_Handler	1
