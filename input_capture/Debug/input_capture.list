@@ -342,7 +342,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
  8000338:	2201      	movs	r2, #1
  800033a:	601a      	str	r2, [r3, #0]
 
-			first_Capture = 0 ;
+
 
 		}
 	}

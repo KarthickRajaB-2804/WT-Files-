@@ -185,9 +185,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			frequency = tim_Clock / diff ;
 			time_Period = 1/frequency;
 
-			//__HAL_TIM_SET_COUNTER(htim,0);
 
 			first_Capture = 0 ;
+
+
+
 
 		}
 	}
