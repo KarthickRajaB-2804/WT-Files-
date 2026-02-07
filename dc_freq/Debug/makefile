@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := input_capture
+BUILD_ARTIFACT_NAME := dc_freq_potentiometer
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-input_capture.elf \
+dc_freq_potentiometer.elf \
 
 MAP_FILES += \
-input_capture.map \
+dc_freq_potentiometer.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-input_capture.list \
+dc_freq_potentiometer.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: input_capture.elf secondary-outputs
+main-build: dc_freq_potentiometer.elf secondary-outputs
 
 # Tool invocations
-input_capture.elf input_capture.map: $(OBJS) $(USER_OBJS) C:\Users\seenu\Documents\WT_Files\dc_freq\STM32F302R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "input_capture.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\seenu\Documents\WT_Files\dc_freq\STM32F302R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="input_capture.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+dc_freq_potentiometer.elf dc_freq_potentiometer.map: $(OBJS) $(USER_OBJS) C:\Users\seenu\Documents\WT_Files\dc_freq\STM32F302R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "dc_freq_potentiometer.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\seenu\Documents\WT_Files\dc_freq\STM32F302R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="dc_freq_potentiometer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-input_capture.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "input_capture.list"
+dc_freq_potentiometer.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "dc_freq_potentiometer.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) default.size.stdout input_capture.elf input_capture.list input_capture.map
+	-$(RM) dc_freq_potentiometer.elf dc_freq_potentiometer.list dc_freq_potentiometer.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

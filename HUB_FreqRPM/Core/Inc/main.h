@@ -57,12 +57,44 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TP1_Pin GPIO_PIN_4
-#define TP1_GPIO_Port GPIOC
+#define H1_Pin GPIO_PIN_0
+#define H1_GPIO_Port GPIOC
+#define H2_Pin GPIO_PIN_1
+#define H2_GPIO_Port GPIOC
+#define H3_Pin GPIO_PIN_2
+#define H3_GPIO_Port GPIOC
+#define HA_Pin GPIO_PIN_0
+#define HA_GPIO_Port GPIOA
+#define HB_Pin GPIO_PIN_1
+#define HB_GPIO_Port GPIOA
+#define HC_Pin GPIO_PIN_2
+#define HC_GPIO_Port GPIOA
+#define XOR_SIGNAL_Pin GPIO_PIN_4
+#define XOR_SIGNAL_GPIO_Port GPIOC
+#define L1_Pin GPIO_PIN_13
+#define L1_GPIO_Port GPIOB
+#define L2_Pin GPIO_PIN_14
+#define L2_GPIO_Port GPIOB
+#define L3_Pin GPIO_PIN_15
+#define L3_GPIO_Port GPIOB
+#define CAL_Pin GPIO_PIN_7
+#define CAL_GPIO_Port GPIOC
+#define DRV_EN_Pin GPIO_PIN_8
+#define DRV_EN_GPIO_Port GPIOC
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define NCS_Pin GPIO_PIN_15
+#define NCS_GPIO_Port GPIOA
+#define SCLK_Pin GPIO_PIN_10
+#define SCLK_GPIO_Port GPIOC
+#define MISO_Pin GPIO_PIN_11
+#define MISO_GPIO_Port GPIOC
+#define MOSI_Pin GPIO_PIN_12
+#define MOSI_GPIO_Port GPIOC
+#define DRV_FLT_Pin GPIO_PIN_8
+#define DRV_FLT_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

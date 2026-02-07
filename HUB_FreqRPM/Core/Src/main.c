@@ -18,9 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "spi.h"
 #include "tim.h"
 #include "gpio.h"
-
+#include "DRV8323.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -38,9 +39,11 @@
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
 #define POLES 30
+
 #define HALL_A HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)
 #define HALL_B HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1)
 #define HALL_C HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_2)
+
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -81,16 +84,65 @@ int Motor_Direction(void)
 		dir = 0;
 		return 0;
 	}
-//	if(previous_State == 0)
-//	{
-//	    previous_State = current_State;
-//	    dir = 0;
-//	    return 0;
-//	}
 	dir = direction_sequence[previous_State][current_State];
     previous_State = current_State;   // update previous state
     return dir;
+}
 
+void All_Disable(void)
+{
+	TIM1->CCER &= ~(
+	        (1<<0)  | (1<<2)  |   // U HS + LS
+	        (1<<4)  | (1<<6)  |   // V HS + LS
+	        (1<<8)  | (1<<10)     // W HS + LS
+	    );
+}
+
+void BLDC_Commutate(uint8_t hall)
+{
+	// U Phase - Channel 1
+	// V Phase - Channel 2
+    // W Phase - Channel 3
+
+    All_Disable();
+
+	switch(hall)
+	{
+	  // DIR = 0
+
+	  case 1: // 110    V+ W-  U-floating
+          TIM1->CCER |= (1<<4);
+          TIM1->CCER |= (1<<10);
+		  break;
+
+      case 2: // 100    U+ W-  V-floating
+    	  TIM1->CCER |= (1<<0);
+          TIM1->CCER |= (1<<10);
+    	  break;
+
+      case 3: // 101    U+ V-  W-floating
+    	  TIM1->CCER |= (1<<0);
+    	  TIM1->CCER |= (1<<6);
+    	  break;
+
+      case 4: // 001    W+ V-  U-floating
+    	  TIM1->CCER |= (1<<8);
+    	  TIM1->CCER |= (1<<6);
+    	  break;
+
+      case 5: // 011    W+ U-  V-floating
+    	  TIM1->CCER |= (1<<8);
+    	  TIM1->CCER |= (1<<2);
+    	  break;
+
+      case 6: // 010    V+ U-  W-floating
+    	  TIM1->CCER |= (1<<4);
+          TIM1->CCER |= (1<<2);
+          break;
+
+      default:
+    	  break;
+	}
 
 }
 /* USER CODE END 0 */
@@ -125,9 +177,26 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_SPI3_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, SET);   // DRV_ENABLE
   HAL_TIMEx_HallSensor_Start_IT(&htim2);
   HAL_TIM_Base_Start_IT(&htim2);
+  DRV_INIT();
+  //TIM1->BDTR = (1<<15);
+  // PWM Generation
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_3);
+
+  BLDC_Commutate(2);
+  TIM1->EGR |= (1<<5);  //COMG
+  __HAL_TIM_MOE_ENABLE (&htim1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,6 +219,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -179,6 +249,12 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 
 /* USER CODE BEGIN 4 */
@@ -202,6 +278,7 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			freq = 0.0;
 			rpm = 0.0;
 		}
+		//BLDC_Commutate(current_State);
 	}
 
 }

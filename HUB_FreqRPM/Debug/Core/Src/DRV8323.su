@@ -1,0 +1,14 @@
+../Core/Src/DRV8323.c:41:6:DRV_INIT	8	static
+../Core/Src/DRV8323.c:54:10:DRV_Read_Data	32	static
+../Core/Src/DRV8323.c:61:6:DRV_Write_Data	24	static
+../Core/Src/DRV8323.c:105:6:DRV_Lock	16	static
+../Core/Src/DRV8323.c:115:6:DRV_UnLock	16	static
+../Core/Src/DRV8323.c:123:6:DRV_Read_Fault	8	static
+../Core/Src/DRV8323.c:129:6:DRV_Fault_Parser	4	static
+../Core/Src/DRV8323.c:163:6:DRV_Fault_Clear	16	static
+../Core/Src/DRV8323.c:169:6:DRV_Calibration	8	static
+../Core/Src/DRV8323.c:176:6:DRV_TIMED_CLEAR_FAULTS	8	static
+../Core/Src/DRV8323.c:186:6:DRV_FAULT_HANDLER	8	static
+../Core/Src/DRV8323.c:332:6:CLR_DRV_FAULT_COUNT	4	static
+../Core/Src/DRV8323.c:347:6:DRV_FAULT	8	static
+../Core/Src/DRV8323.c:368:6:LATCHED_FAULT	8	static
